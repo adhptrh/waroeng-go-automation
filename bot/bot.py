@@ -12,8 +12,15 @@ class Bot:
 
     def __init__(self,config_path):
         self.cfg_path = config_path
-        c = open(self.cfg_path,"r")
-        self.data = json.loads(c.read())
+
+        try:
+            c = open(self.cfg_path,"r")
+            self.data = json.loads(c.read())
+
+        except FileNotFoundError:
+            c = open(self.cfg_path,"w")
+            self.data = self.blankData()
+            c.write(json.dumps(self.data))
 
     def getAuthorization(self):
         return self.data[self.cfg_names["auth"]]
@@ -31,11 +38,14 @@ class Bot:
         s = open(self.cfg_path,"w")
         s.write(json.dumps(self.data))
 
-    def reset(self):
-        self.data = {
+    def blankData(self):
+        return {
             self.cfg_names["auth"]:"",
             self.cfg_names["channel_id"]:""
         }
+
+    def reset(self):
+        self.data = self.blankData()
 
         self.save()
 
