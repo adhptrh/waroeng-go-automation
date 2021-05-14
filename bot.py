@@ -15,7 +15,3 @@ if not config.getChannelId():
     config.setChannelId(input("Put your server channel id : "))
 
 config.save()
-
-print(config.getAuthorization())
-
-config.reset()
