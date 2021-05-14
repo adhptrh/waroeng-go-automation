@@ -1,7 +1,6 @@
 import requests, time, json, re
-from conf.config import Config
-
-config = Config("config.json")
+import bot.bot
+config = bot.bot.Bot("config.json")
 
 print("""
 Waroeng-Go Automation Bot

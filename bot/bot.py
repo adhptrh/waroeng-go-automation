@@ -1,12 +1,14 @@
-import json
+import json,requests,re
 
-class Config:
+class Bot:
     data = {}
     cfg_path = ""
     cfg_names = {
         "auth":"authorization",
         "channel_id":"channel_id"
     }
+
+    api_link = "https://discord.com/api/v9"
 
     def __init__(self,config_path):
         self.cfg_path = config_path
@@ -36,3 +38,19 @@ class Config:
         }
 
         self.save()
+
+    def generateHeader(self):
+        return {
+            "authorization":self.data[self.getAuthorization()]
+        }
+
+    def getLastChannelMessage(self):
+        r = requests.get(f"{self.api_link}/channels/{self.getChannelId()}/messages?limit=1",headers=self.generateHeader())
+        return r.json()
+
+    def sendMessage(self,message):
+        pdata = {
+            "content":message
+        }
+        r = requests.post(f"{self.api_link}/channels/{self.getChannelId()}/messages",headers=self.generateHeader(),json=pdata)
+        return r.json()
