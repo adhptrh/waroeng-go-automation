@@ -1,5 +1,5 @@
 import requests, time, json, re
-from config import Config
+from conf.config import Config
 
 config = Config("config.json")
 
@@ -12,7 +12,7 @@ if not config.getAuthorization():
     config.setAuthorization(input("Put your discord authorization here : "))
 
 if not config.getChannelId():
-    config.setChannelId(input("Put your server channel id"))
+    config.setChannelId(input("Put your server channel id : "))
 
 config.save()
 
